@@ -22,9 +22,8 @@ master-buster:
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
   - docker push kohaaloha/arm64:master-buster
   - docker image rm kohaaloha/arm64:koha-testing:master-buster
-
-  only:
-  - master-buster@mjames/ktd-arm64
+    #  only:
+    #- master-buster@mjames/ktd-arm64
 
 
 master-bullseye:
@@ -34,8 +33,7 @@ master-bullseye:
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
   - docker push kohaaloha/arm64:master-bullseye
   - docker image rm kohaaloha/arm64:koha-testing:master-bullseye
-
-  only:
-  - master-bullseye@mjames/ktd-arm64
+    #only:
+    #- master-bullseye@mjames/ktd-arm64
 
 
