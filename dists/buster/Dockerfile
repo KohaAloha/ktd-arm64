@@ -24,6 +24,7 @@ RUN apt-get -y update \
     libnet-stomp-perl \
     rabbitmq-server \
     libapache2-mpm-itk \
+    coreutils \
     sudo
 
 # Set suitable debian sources
@@ -39,7 +40,7 @@ RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
 #RUN echo "deb http://debian.koha-community.org/koha-staging stable main" >> /etc/apt/sources.list.d/koha.list
 
 RUN echo "deb http://debian.koha-community.org/koha-staging dev main buster" >> /etc/apt/sources.list.d/koha.list
-RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps dev main buster" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main buster" >> /etc/apt/sources.list.d/koha.list
 
 # Temporary dependencies
 RUN apt-get -y update \
