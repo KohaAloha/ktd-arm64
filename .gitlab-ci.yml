@@ -14,7 +14,7 @@ stages:
   - build
 
 
-buster-full-armhf:
+master-buster:
   stage: build
   script:
   - docker build -t kohaaloha/arm64:master-buster --no-cache --rm -f dists/buster/Dockerfile .
@@ -22,7 +22,7 @@ buster-full-armhf:
   - docker push kohaaloha/arm64:master-buster
   - docker image rm kohaaloha/arm64:koha-testing:master-buster
 
-#  only:
-#- master-ka-full@mjames/koha-testing-docker
+  only:
+  - master-buster@mjames/ktd-arm64
 
 
