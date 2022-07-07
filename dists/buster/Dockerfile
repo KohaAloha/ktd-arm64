@@ -4,8 +4,9 @@
 #FROM kohaaloha/raspbian:buster-slim
 #FROM arm64v8/debian:buster
 #FROM arm64v8/debian:unstable-slim
-FROM arm64v8/debian:latest
 #FROM arm64v8/debian:latest-slim
+#FROM arm64v8/debian:latest
+FROM arm64v8/debian:buster
 
 # File Author / Maintainer
 LABEL maintainer="mtj@kohaaloha.com"
@@ -31,15 +32,14 @@ RUN apt-get -y update \
 
 ##RUN echo "deb [trusted=yes] http://archive.raspbian.org/raspbian buster  main contrib non-free rpi" >>  /etc/apt/sources.list
 
-ENV REFRESHED_AT 2019-10-01-0
 RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
 
 # Add Koha development repositories
-#RUN echo "deb http://debian.koha-community.org/koha-staging dev main buster" >> /etc/apt/sources.list.d/koha.list
 #RUN echo "deb http://debian.koha-community.org/koha 21.05 main" >> /etc/apt/sources.list.d/koha.list
+#RUN echo "deb http://debian.koha-community.org/koha-staging stable main" >> /etc/apt/sources.list.d/koha.list
 
-RUN echo "deb http://debian.koha-community.org/koha-staging stable main" >> /etc/apt/sources.list.d/koha.list
-RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main buster" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://debian.koha-community.org/koha-staging dev main buster" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps dev main buster" >> /etc/apt/sources.list.d/koha.list
 
 # Temporary dependencies
 RUN apt-get -y update \
