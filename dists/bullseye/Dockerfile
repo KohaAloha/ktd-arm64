@@ -37,7 +37,7 @@ RUN echo "deb http://debian.koha-community.org/koha-staging dev main bullseye" >
 RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main bullseye" >> /etc/apt/sources.list.d/koha.list
 
 
-RUN dpkg -L coreutils
+#RUN dpkg -L coreutils
 
 # Temporary dependencies
 RUN apt-get -y update \
@@ -159,7 +159,6 @@ RUN cd /kohadevbox \
     && apt-get -y install \
         libhtml-tableextract-perl \
         libtext-multimarkdown-perl \
-        md5sum \
     && rm -rf /var/cache/apt/archives/* \
     && rm -rf /var/lib/api/lists/* \
     && cpanm -i --force -n \
@@ -167,16 +166,17 @@ RUN cd /kohadevbox \
         REST::Client
 
 ## Remote debugger
-RUN cd /kohadevbox \
-    && ls -l \
-    && wget -O run.sh https://gitlab.com/mjames/koha-testing-docker/-/raw/ka-arm64-master/files/run-core.sh \
-    && cat run.sh \    
-    && md5sum run.sh \    
-    && ls -l
+#RUN cd /kohadevbox \
+#    && ls -l \
+#    && wget -O run.sh https://gitlab.com/mjames/koha-testing-docker/-/raw/ka-arm64-master/files/run-core.sh \
+#    && cat run.sh \    
+#    && md5sum run.sh \    
+#    && ls -l
+
 
 VOLUME /kohadevbox/koha
 
-#COPY files/run.sh /kohadevbox
+COPY files/run.sh /kohadevbox
 COPY files/templates /kohadevbox/templates
 COPY env/defaults.env /kohadevbox/templates/defaults.env
 
