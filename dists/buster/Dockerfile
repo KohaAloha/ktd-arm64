@@ -3,8 +3,8 @@
 #FROM i386/debian:buster
 #FROM kohaaloha/raspbian:buster-slim
 #FROM arm64v8/debian:buster
-FROM arm64v8/debian:unstable-slim
-#FROM arm64v8/debian:latest
+#FROM arm64v8/debian:unstable-slim
+FROM arm64v8/debian:latest
 #FROM arm64v8/debian:latest-slim
 
 # File Author / Maintainer
