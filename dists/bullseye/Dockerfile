@@ -1,8 +1,8 @@
 # Base it on Debian 10
-FROM debian:bullseye
+FROM arm64v8/debian:bullseye
 
 # File Author / Maintainer
-LABEL maintainer="tomascohen@theke.io"
+LABEL maintainer="mtj@kohaaloha.com"
 
 ENV PATH /usr/bin:/bin:/usr/sbin:/sbin
 ENV DEBIAN_FRONTEND noninteractive
@@ -106,7 +106,6 @@ RUN apt-get -y update \
          libtemplate-plugin-gettext-perl \
          libdevel-cover-perl \
 \
-         libhttpd-bench-apachebench-perl \
          libmoosex-attribute-env-perl \
          libtest-dbix-class-perl \
          libtap-harness-junit-perl \
@@ -160,10 +159,15 @@ RUN cd /kohadevbox \
         libhtml-tableextract-perl \
         libtext-multimarkdown-perl \
         bugz \
-        libfile-findlib-perl \
         librest-client-perl \
     && rm -rf /var/cache/apt/archives/* \
     && rm -rf /var/lib/api/lists/*
+
+# Install testing extras
+RUN cpanm -i --force -n \
+       HTTPD::Bench::ApacheBench \
+       File::FindLib
+
 
 # Remote debugger
 RUN cd /kohadevbox \
