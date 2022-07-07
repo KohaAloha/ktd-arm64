@@ -22,7 +22,7 @@ master-buster:
   - docker push kohaaloha/arm64:master-buster
   - docker image rm kohaaloha/arm64:koha-testing:master-buster
 
-  only:
-  - master-buster@mjames/ktd-arm64
+    #  only:
+    #  - master-buster@mjames/ktd-arm64
 
 
