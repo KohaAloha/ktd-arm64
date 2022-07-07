@@ -42,6 +42,9 @@ RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
 RUN echo "deb http://debian.koha-community.org/koha-staging dev main buster" >> /etc/apt/sources.list.d/koha.list
 RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main buster" >> /etc/apt/sources.list.d/koha.list
 
+
+RUN dpkg -L coreutils
+
 # Temporary dependencies
 RUN apt-get -y update \
     && apt-get -y install koha-core \
