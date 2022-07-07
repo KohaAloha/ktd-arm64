@@ -1,60 +1,25 @@
 # Base it on Debian 10
-FROM arm64v8/debian:bullseye
+FROM debian:bullseye
 
 # File Author / Maintainer
-LABEL maintainer="mtj@kohaaloha.com"
+LABEL maintainer="tomascohen@theke.io"
 
 ENV PATH /usr/bin:/bin:/usr/sbin:/sbin
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get -y update \
-    && apt-get -y install \
-    idzebra* \
-    libidzebra* \
-    ca-certificates \
-    wget \
-    gnupg2 \
-    libnet-stomp-perl \
-    rabbitmq-server \
-    libapache2-mpm-itk \
-    coreutils \
-    sudo
-
-RUN apt-get -y upgrade
-
 # Set suitable debian sources
 #RUN echo "deb http://httpredir.debian.org/debian bullseye main" > /etc/apt/sources.list
-#RUN echo "deb http://security.debian.org/ bullseye/updates main" >> /etc/apt/sources.list
-##RUN echo "deb [trusted=yes] http://archive.raspbian.org/raspbian bullseye  main contrib non-free rpi" >>  /etc/apt/sources.list
 
-RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
+ENV REFRESHED_AT 2021-06-17
 
-# Add Koha development repositories
-#RUN echo "deb http://debian.koha-community.org/koha 21.05 main" >> /etc/apt/sources.list.d/koha.list
-#RUN echo "deb http://debian.koha-community.org/koha-staging stable main" >> /etc/apt/sources.list.d/koha.list
-
-RUN echo "deb http://debian.koha-community.org/koha-staging dev main bullseye" >> /etc/apt/sources.list.d/koha.list
-RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main bullseye" >> /etc/apt/sources.list.d/koha.list
-
-
-#RUN dpkg -L coreutils
-
-# Temporary dependencies
-RUN apt-get -y update \
-    && apt-get -y install koha-core \
-      libplack-middleware-logwarn-perl \
-      libemail-stuffer-perl \
-   && rm -rf /var/cache/apt/archives/* \
-   && rm -rf /var/lib/apt/lists/*
-
+#RUN apt-get -y update
 
 # Install apache2 and testting deps
 # netcat: used for checking the DB is up
 RUN apt-get -y update \
+    && apt-get -y upgrade \
     && apt-get -y install \
-      rabbitmq-server \
       apache2 \
-      libapache2-mpm-itk \
       build-essential \
       codespell \
       cpanminus \
@@ -62,11 +27,9 @@ RUN apt-get -y update \
       tig \
       libcarp-always-perl \
       libgit-repository-perl \
-      liblist-compare-perl \
       libmemcached-tools \
       libmodule-install-perl \
       libperl-critic-perl \
-      libsmart-comments-perl \
       libtest-differences-perl \
       libtest-perl-critic-perl \
       libtest-perl-critic-progressive-perl \
@@ -74,7 +37,7 @@ RUN apt-get -y update \
       libdata-printer-perl \
       pmtools \
       locales \
-      netcat-openbsd \
+      netcat \
       python-gdbm \
       vim \
       tmux \
@@ -82,18 +45,13 @@ RUN apt-get -y update \
       curl \
       apt-transport-https \
       mlocate \
-        memcached \
- mariadb-client \
- mariadb-server \
-    wget  \
-    gnupg \
-    npm \
- libdevel-cover-perl \
+      iproute2 \
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/apt/lists/*
 
 # Set locales
 RUN    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen \
     && dpkg-reconfigure locales \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
@@ -108,7 +66,35 @@ RUN a2dismod mpm_event
 RUN a2dissite 000-default
 RUN a2enmod rewrite \
             headers \
+            proxy_http \
             cgi
+
+
+# Add Koha development repositories
+#RUN echo "deb http://debian.koha-community.org/koha-staging exp main" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://debian.koha-community.org/koha-staging dev main" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main bullseye" >> /etc/apt/sources.list.d/koha.list
+
+RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
+RUN apt-get -y update
+
+RUN apt-cache policy koha-common
+RUN apt-cache policy libmojolicious-perl
+RUN apt-cache policy libjson-validator-perl
+RUN apt-cache policy libmojolicious-plugin-openapi-perl
+RUN apt-cache policy libyaml-libyaml-perl
+
+#RUN apt-get -y install koha-common --simulate
+
+# Install koha-common
+RUN apt-get -y update \
+   && apt-get -y install \
+         libsearch-elasticsearch-perl \
+         libsearch-elasticsearch-client-6-0-perl \
+         koha-common \
+   && /etc/init.d/koha-common stop \
+   && rm -rf /var/cache/apt/archives/* \
+   && rm -rf /var/lib/api/lists/*
 
 RUN mkdir /kohadevbox
 WORKDIR /kohadevbox
@@ -119,6 +105,8 @@ RUN apt-get -y update \
          libexpat1-dev \
          libtemplate-plugin-gettext-perl \
          libdevel-cover-perl \
+\
+         libhttpd-bench-apachebench-perl \
          libmoosex-attribute-env-perl \
          libtest-dbix-class-perl \
          libtap-harness-junit-perl \
@@ -126,17 +114,21 @@ RUN apt-get -y update \
          libdevel-cover-report-clover-perl \
          libwebservice-ils-perl \
          libselenium-remote-driver-perl \
+
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/api/lists/*
 
-# Install testing extras
-RUN cpanm -i --force -n \
-       HTTPD::Bench::ApacheBench
+# Install temporary package
+RUN apt-get -y update \
+   && apt-get -y install \
+         libemail-address-perl \
+   && rm -rf /var/cache/apt/archives/* \
+   && rm -rf /var/lib/api/lists/*
 
 ## Add Yarn
 # Add node repo
 RUN wget -q -O- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN echo "deb http://deb.nodesource.com/node_12.x bullseye main" > /etc/apt/sources.list.d/node.list
+RUN echo "deb http://deb.nodesource.com/node_12.x sid main" > /etc/apt/sources.list.d/node.list
 # Add yarn repo
 RUN wget -q -O- https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
@@ -160,30 +152,24 @@ RUN cd /kohadevbox \
     && git clone https://gitlab.com/koha-community/koha-gitify.git gitify \
     && git clone https://gitlab.com/koha-community/qa-test-tools.git
 
-# release-tools
+# release-tools and koha-howto
 RUN cd /kohadevbox \
     && git clone https://gitlab.com/koha-community/release-tools.git \
     && apt-get update \
     && apt-get -y install \
         libhtml-tableextract-perl \
         libtext-multimarkdown-perl \
-\
-    && apt-get -y upgrade \
-\
+        bugz \
+        libfile-findlib-perl \
+        librest-client-perl \
     && rm -rf /var/cache/apt/archives/* \
-    && rm -rf /var/lib/api/lists/* \
-    && cpanm -i --force -n \
-        File::FindLib \
-        REST::Client
+    && rm -rf /var/lib/api/lists/*
 
-## Remote debugger
-#RUN cd /kohadevbox \
-#    && ls -l \
-#    && wget -O run.sh https://gitlab.com/mjames/koha-testing-docker/-/raw/ka-arm64-master/files/run-core.sh \
-#    && cat run.sh \    
-#    && md5sum run.sh \    
-#    && ls -l
-
+# Remote debugger
+RUN cd /kohadevbox \
+    && wget -q -O dbgp.tar.gz https://gitlab.com/mjames/dbgp/-/raw/master/dbgp.tar.gz \
+    && tar xvzf dbgp.tar.gz \
+    && rm dbgp.tar.gz
 
 VOLUME /kohadevbox/koha
 
