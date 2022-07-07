@@ -116,7 +116,8 @@ WORKDIR /kohadevbox
 # Install testing extras, packages and cpan
 RUN apt-get -y update \
    && apt-get -y install \
-         libexpat1-dev \                                                                       libtemplate-plugin-gettext-perl \
+         libexpat1-dev \
+         libtemplate-plugin-gettext-perl \
          libdevel-cover-perl \
          libmoosex-attribute-env-perl \
          libtest-dbix-class-perl \
