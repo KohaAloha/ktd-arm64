@@ -120,10 +120,6 @@ if [ "${DEBUG_GIT_REPO_QATESTTOOLS}" = "yes" ]; then
     git clone -b ${DEBUG_GIT_REPO_QATESTTOOLS_BRANCH} ${DEBUG_GIT_REPO_QATESTTOOLS_URL} ${BUILD_DIR}/qa-test-tools
 fi
 
-#if [ -n "$KOHA_ELASTICSEARCH" ]; then
-#    ES_FLAG="--elasticsearch"
-#fi
-
 perl ${BUILD_DIR}/misc4dev/do_all_you_can_do.pl \
             --instance          ${KOHA_INSTANCE} ${ES_FLAG} \
             --userid            ${KOHA_USER} \
@@ -164,27 +160,6 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
     cd ${BUILD_DIR}/koha
     rm -rf /cover_db/*
 
-    if [ ${COVERAGE} ]; then
-        koha-shell ${KOHA_INSTANCE} -p -c "rm -rf cover_db;
-                                  JUNIT_OUTPUT_FILE=junit_main.xml \
-                                  PERL5OPT=-MDevel::Cover=-db,/cover_db \
-                                  KOHA_TESTING=1 \
-                                  KOHA_NO_TABLE_LOCKS=1 \
-                                  KOHA_INTRANET_URL=http://koha:8081 \
-                                  KOHA_OPAC_URL=http://koha:8080 \
-                                  KOHA_USER=${KOHA_USER} \
-                                  KOHA_PASS=${KOHA_PASS} \
-                                  SELENIUM_ADDR=selenium \
-                                  SELENIUM_PORT=4444 \
-                                  TEST_QA=1 \
-                                  prove -j ${KOHA_PROVE_CPUS} -v \
-                                  --rules='par=t/db_dependent/00-strict.t' \
-                                  --rules='seq=t/db_dependent/**.t' --rules='par=**' \
-                                  --timer --harness=TAP::Harness::JUnit -s -r t/ xt/ \
-                                  && touch testing.success; \
-                                  mkdir cover_db; cp -r /cover_db/* cover_db;
-                                  cover -report clover"
-    else
         koha-shell ${KOHA_INSTANCE} -p -c "JUNIT_OUTPUT_FILE=junit_main.xml \
                                   KOHA_TESTING=1 \
                                   KOHA_NO_TABLE_LOCKS=1 \
@@ -198,9 +173,9 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   prove -j ${KOHA_PROVE_CPUS} -v \
                                   --rules='par=t/db_dependent/00-strict.t' \
                                   --rules='seq=t/db_dependent/**.t' --rules='par=**' \
-                                  --timer --harness=TAP::Harness::JUnit -s -r t/ xt/ \
+                                  --timer --harness=TAP::Harness::JUnit  t \
                                   && touch testing.success"
-    fi
+
 else
     # TODO: We could use supervise as the main loop
     /bin/bash -c "trap : TERM INT; sleep infinity & wait"
