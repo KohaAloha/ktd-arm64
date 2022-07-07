@@ -1,4 +1,6 @@
-image: docker:stable
+#image: docker:stable
+image: arm64v8/alpine
+
 #image: docker:18-git
 
 variables:
@@ -13,7 +15,6 @@ services:
 stages:
   - build
 
-
 master-buster:
   stage: build
   script:
@@ -24,5 +25,3 @@ master-buster:
 
     #  only:
     #  - master-buster@mjames/ktd-arm64
-
-
