@@ -1,12 +1,5 @@
 # Base it on Debian 10
-#FROM debian:buster
-#FROM i386/debian:buster
-#FROM kohaaloha/raspbian:buster-slim
-#FROM arm64v8/debian:buster
-#FROM arm64v8/debian:unstable-slim
-#FROM arm64v8/debian:latest-slim
-#FROM arm64v8/debian:latest
-FROM arm64v8/debian:buster
+FROM arm64v8/debian:bullseye
 
 # File Author / Maintainer
 LABEL maintainer="mtj@kohaaloha.com"
@@ -30,10 +23,9 @@ RUN apt-get -y update \
 RUN apt-get -y upgrade
 
 # Set suitable debian sources
-#RUN echo "deb http://httpredir.debian.org/debian buster main" > /etc/apt/sources.list
-#RUN echo "deb http://security.debian.org/ buster/updates main" >> /etc/apt/sources.list
-
-##RUN echo "deb [trusted=yes] http://archive.raspbian.org/raspbian buster  main contrib non-free rpi" >>  /etc/apt/sources.list
+#RUN echo "deb http://httpredir.debian.org/debian bullseye main" > /etc/apt/sources.list
+#RUN echo "deb http://security.debian.org/ bullseye/updates main" >> /etc/apt/sources.list
+##RUN echo "deb [trusted=yes] http://archive.raspbian.org/raspbian bullseye  main contrib non-free rpi" >>  /etc/apt/sources.list
 
 RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
 
@@ -41,8 +33,8 @@ RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
 #RUN echo "deb http://debian.koha-community.org/koha 21.05 main" >> /etc/apt/sources.list.d/koha.list
 #RUN echo "deb http://debian.koha-community.org/koha-staging stable main" >> /etc/apt/sources.list.d/koha.list
 
-RUN echo "deb http://debian.koha-community.org/koha-staging dev main buster" >> /etc/apt/sources.list.d/koha.list
-RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main buster" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://debian.koha-community.org/koha-staging dev main bullseye" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main bullseye" >> /etc/apt/sources.list.d/koha.list
 
 
 RUN dpkg -L coreutils
@@ -96,6 +88,7 @@ RUN apt-get -y update \
     wget  \
     gnupg \
     npm \
+ libdevel-cover-perl \
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/apt/lists/*
 
@@ -132,19 +125,10 @@ RUN cpanm -i --force -n \
        WebService::ILS \
        Selenium::Remote::Driver
 
-
-# Patch Devel::Cover to skip exec
-RUN wget -O Devel-Cover.tar.gz \
-       http://search.cpan.org/CPAN/authors/id/P/PJ/PJCJ/Devel-Cover-1.26.tar.gz \
-    && tar xvzf Devel-Cover.tar.gz \
-    && sed -i 's/PL_ppaddr\[OP_EXEC\]      = dc_exec;//' Devel-Cover-1.26/Cover.xs \
-    && cd Devel-Cover-1.26/ \
-    && cpanm -i -n .
-
 ## Add Yarn
 # Add node repo
 RUN wget -q -O- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN echo "deb http://deb.nodesource.com/node_12.x buster main" > /etc/apt/sources.list.d/node.list
+RUN echo "deb http://deb.nodesource.com/node_12.x bullseye main" > /etc/apt/sources.list.d/node.list
 # Add yarn repo
 RUN wget -q -O- https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
