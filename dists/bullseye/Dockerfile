@@ -113,17 +113,24 @@ RUN a2enmod rewrite \
 RUN mkdir /kohadevbox
 WORKDIR /kohadevbox
 
+# Install testing extras, packages and cpan
+RUN apt-get -y update \
+   && apt-get -y install \
+         libexpat1-dev \                                                                       libtemplate-plugin-gettext-perl \
+         libdevel-cover-perl \
+         libmoosex-attribute-env-perl \
+         libtest-dbix-class-perl \
+         libtap-harness-junit-perl \
+         libtext-csv-unicode-perl \
+         libdevel-cover-report-clover-perl \
+         libwebservice-ils-perl \
+         libselenium-remote-driver-perl \
+   && rm -rf /var/cache/apt/archives/* \
+   && rm -rf /var/lib/api/lists/*
+
 # Install testing extras
 RUN cpanm -i --force -n \
-       DBD::SQLite \
-       HTTPD::Bench::ApacheBench \
-       MooseX::Attribute::ENV \
-       Test::DBIx::Class \
-       TAP::Harness::JUnit \
-       Text::CSV::Unicode \
-       Devel::Cover::Report::Clover \
-       WebService::ILS \
-       Selenium::Remote::Driver
+       HTTPD::Bench::ApacheBench
 
 ## Add Yarn
 # Add node repo
@@ -159,6 +166,9 @@ RUN cd /kohadevbox \
     && apt-get -y install \
         libhtml-tableextract-perl \
         libtext-multimarkdown-perl \
+\
+    && apt-get -y upgrade \
+\
     && rm -rf /var/cache/apt/archives/* \
     && rm -rf /var/lib/api/lists/* \
     && cpanm -i --force -n \
