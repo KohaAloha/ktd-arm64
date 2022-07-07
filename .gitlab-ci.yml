@@ -1,6 +1,5 @@
-#image: docker:stable
-image: arm64v8/alpine
-
+image: docker:stable
+#image: arm64v8/alpine
 #image: docker:18-git
 
 variables:
