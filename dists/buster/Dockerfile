@@ -27,6 +27,8 @@ RUN apt-get -y update \
     coreutils \
     sudo
 
+RUN apt-get -y upgrade
+
 # Set suitable debian sources
 #RUN echo "deb http://httpredir.debian.org/debian buster main" > /etc/apt/sources.list
 #RUN echo "deb http://security.debian.org/ buster/updates main" >> /etc/apt/sources.list
