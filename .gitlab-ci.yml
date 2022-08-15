@@ -16,12 +16,12 @@ stages:
   - build
 
 
-master-bullseye:
+22.05-bullseye:
   stage: build
   script:
-  - docker build -t kohaaloha/arm64:master-bullseye --no-cache --rm -f dists/bullseye/Dockerfile .
+  - docker build -t kohaaloha/arm64:20.05-bullseye --no-cache --rm -f dists/bullseye/Dockerfile .
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-  - docker push kohaaloha/arm64:master-bullseye
+  - docker push kohaaloha/arm64:22.05-bullseye
     #  - docker image rm kohaaloha/arm64:koha-testing:master-bullseye
     #only:
     #- master-bullseye@mjames/ktd-arm64
