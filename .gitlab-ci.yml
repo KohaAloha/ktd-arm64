@@ -15,16 +15,16 @@ services:
 stages:
   - build
 
-22.05-bookworm:
-  stage: build
-  script:
-  - docker build -t kohaaloha/arm64:22.05-bookworm --no-cache --rm -f dists/bookworm/Dockerfile .
-  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-  - docker push kohaaloha/arm64:22.05-bookworm
-    #  - docker image rm kohaaloha/arm64:koha-testing:master-bullseye
-   #only:
-    #- master-bullseye@mjames/ktd-arm64
-
+#22.05-bookworm:
+#  stage: build
+#  script:
+#  - docker build -t kohaaloha/arm64:22.05-bookworm --no-cache --rm -f dists/bookworm/Dockerfile .
+#  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+#  - docker push kohaaloha/arm64:22.05-bookworm
+#    #  - docker image rm kohaaloha/arm64:koha-testing:master-bullseye
+#   #only:
+#    #- master-bullseye@mjames/ktd-arm64
+#
 22.05-bullseye:
   stage: build
   script:
@@ -35,24 +35,14 @@ stages:
    #only:
     #- master-bullseye@mjames/ktd-arm64
 
-22.05-buster:
-  stage: build
-  script:
-  - docker build -t kohaaloha/arm64:22.05-buster --no-cache --rm -f dists/buster/Dockerfile .
-  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-  - docker push kohaaloha/arm64:22.05-buster
-    #  - docker image rm kohaaloha/arm64:koha-testing:master-bullseye
-   #only:
-    #- master-bullseye@mjames/ktd-arm64
-
-#master-buster:
+#22.05-buster:
 #  stage: build
 #  script:
-#  - docker build -t kohaaloha/arm64:master-buster --no-cache --rm -f dists/buster/Dockerfile .
+#  - docker build -t kohaaloha/arm64:22.05-buster --no-cache --rm -f dists/buster/Dockerfile .
 #  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-#  - docker push kohaaloha/arm64:master-buster
-#  - docker image rm kohaaloha/arm64:koha-testing:master-buster
-#    #  only:
-#    #- master-buster@mjames/ktd-arm64
+#  - docker push kohaaloha/arm64:22.05-buster
+#    #  - docker image rm kohaaloha/arm64:koha-testing:master-bullseye
+#   #only:
+#    #- master-bullseye@mjames/ktd-arm64
 #
 
