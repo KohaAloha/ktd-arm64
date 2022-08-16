@@ -1,7 +1,7 @@
 version: '3'
 services:
     db:
-        image: ${DB_IMAGE:-mariadb:10.5}
+        image: arm64v8/mariadb:10.1
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: password
@@ -11,7 +11,7 @@ services:
         networks:
             - kohanet
     koha:
-        image: koha/koha-testing:${KOHA_IMAGE}
+        image: kohaaloha/arm64:${KOHA_IMAGE}
         depends_on:
             - db
             - memcached
@@ -43,11 +43,10 @@ services:
             - "8080:8080"
             - "8081:8081"
     memcached:
-        image: memcached
+        image: arm64v8/memcached
         command: memcached -m 64m
         networks:
             - kohanet
-
 networks:
     kohanet:
 
