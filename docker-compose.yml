@@ -29,7 +29,7 @@ services:
             - db
             - es
             - memcached
-            - selenium
+            - seleniarm
         cap_add:
             - ALL
         volumes:
