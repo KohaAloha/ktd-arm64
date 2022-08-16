@@ -62,8 +62,7 @@ services:
         command: memcached -m 64m
         networks:
             - kohanet
-    selenium:
-#       image: selenium/standalone-firefox:3
+    seleniarm:
         image: seleniarm/standalone-firefox:3
         networks:
             - kohanet
