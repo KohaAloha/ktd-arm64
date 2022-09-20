@@ -1,6 +1,3 @@
-#image: docker:stable
-#image: arm64v8/alpine
-#image: docker:18-git
 image: arm64v8/docker
 
 variables:
@@ -28,12 +25,12 @@ stages:
 22.05-bullseye:
   stage: build
   script:
-  - docker build -t kohaaloha/arm64:22.05-bullseye --no-cache --rm -f dists/bullseye/Dockerfile .
+  - docker build -t kohaaloha/arm64:master-bullseye --no-cache --rm -f dists/bullseye/Dockerfile .
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-  - docker push kohaaloha/arm64:22.05-bullseye
+  - docker push kohaaloha/arm64:master-bullseye
     #  - docker image rm kohaaloha/arm64:koha-testing:master-bullseye
-   #only:
-    #- master-bullseye@mjames/ktd-arm64
+  only:
+  - master-bullseye@mjames/ktd-arm64
 
 #22.05-buster:
 #  stage: build
