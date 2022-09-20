@@ -91,7 +91,6 @@ RUN apt-cache policy libyaml-libyaml-perl
 # Install koha-common
 RUN apt-get -y update \
    && apt-get -y install \
-         libsearch-elasticsearch-perl \
          koha-common \
    && /etc/init.d/koha-common stop \
    && rm -rf /var/cache/apt/archives/* \
@@ -114,7 +113,6 @@ RUN apt-get -y update \
          libdevel-cover-report-clover-perl \
          libwebservice-ils-perl \
          libselenium-remote-driver-perl \
-
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/api/lists/*
 
