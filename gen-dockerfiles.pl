@@ -1,22 +1,68 @@
 use Template;
+
+use DDP alias => 'zzz', colored => 0, caller_info => 1;
+
 my $tt = Template->new;
 
 
-my %data = ( os_codename   => 'buster',
-             koha_codename => '21.11');
+my %builds = (
+    'unstable-bullseye' => {
+        'os_codename'   => 'bullseye',
+        'koha_codename' => 'unstable',
+        'koha_version' => '22.06',
+    },
 
-my $template = 'Dockerfile.tt';
+    'testing-bullseye' => {
+        'os_codename'   => 'bullseye',
+        'koha_codename' => 'testing',
+        'koha_version' => '22.06',
+    },
 
+    '22.05-bullseye' => {
+        'os_codename'   => 'bullseye',
+        'koha_codename' => 'stable',
+        'koha_version' => '22.05',
+    },
 
-warn  $data{os_codename};
+    '21.11-bullseye' => {
+        'os_codename'   => 'bullseye',
+        'koha_codename' => 'oldstable',
+        'koha_version' => '21.11',
+    },
 
-$tt->process('split.tt', { teams => \@teams }, 'split.csv');
+    '21.05-bullseye' => {
+        'os_codename'   => 'bullseye',
+        'koha_codename' => 'oldoldstable',
+        'koha_version' => '21.05',
+    },
 
+);
 
-my $docker_file = "dists/". $data{os_codename} . '/Dockerfile';
-warn $docker_file;
+zzz %b3;
 
+foreach my $b ( keys %builds ) {
 
-$tt->process( $template , \%data, $docker_file )
-    || die $tt->error;
+    zzz $b3{$b};
 
+    #zzz @b33;
+
+    #foreach my $b (
+
+    my %data = (
+        os_codename   => 'buster',
+        koha_codename => '21.11'
+    );
+
+    my $template = 'Dockerfile.tt';
+
+    warn $data{os_codename};
+
+    mkdir "dists/$b";
+
+    my $docker_file = "dists/" . $b  . '/Dockerfile';
+    warn $docker_file;
+
+    $tt->process( $template, \%data, $docker_file )
+      || die $tt->error;
+
+}
