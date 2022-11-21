@@ -221,6 +221,7 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                     -not -path \"t/db_dependent/selenium/*\" \
                                     -not -path \"t/db_dependent/Koha/SearchEngine/Elasticsearch/*\" \
                                     -not -path \"t/db_dependent/Koha/SearchEngine/*\" \
+                                    -not -path \"t/db_dependent/00-strict.t\" \
                                 |
                                   JUNIT_OUTPUT_FILE=junit_main.xml \
                                   KOHA_TESTING=1 \
@@ -230,8 +231,7 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   KOHA_USER=${KOHA_USER} \
                                   KOHA_PASS=${KOHA_PASS} \
                                   TEST_QA=1 \
-                                  xargs prove -j ${KOHA_PROVE_CPUS} \
-                                  --rules='par=t/db_dependent/00-strict.t' \
+                                  xargs prove -v -j ${KOHA_PROVE_CPUS} \
                                   --rules='seq=t/db_dependent/**.t' --rules='par=**' \
                                   --timer --harness=TAP::Harness::JUnit -r -s \
                                   && touch testing.success"
