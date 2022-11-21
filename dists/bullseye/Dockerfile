@@ -1,8 +1,9 @@
 # Base it on Debian 10
+#FROM debian:bullseye
 FROM arm64v8/debian:bullseye
 
 # File Author / Maintainer
-LABEL maintainer="mtj@kohaaloha.com"
+LABEL maintainer="tomascohen@theke.io"
 
 ENV PATH /usr/bin:/bin:/usr/sbin:/sbin
 ENV DEBIAN_FRONTEND noninteractive
@@ -17,7 +18,6 @@ ENV REFRESHED_AT 2021-06-17
 # Install apache2 and testting deps
 # netcat: used for checking the DB is up
 RUN apt-get -y update \
-    && apt-get -y upgrade \
     && apt-get -y install \
       apache2 \
       build-essential \
@@ -71,12 +71,9 @@ RUN a2enmod rewrite \
 
 
 # Add Koha development repositories
-#RUN echo "deb http://debian.koha-community.org/koha-staging exp main" >> /etc/apt/sources.list.d/koha.list
 RUN echo "deb http://debian.koha-community.org/koha-staging 21.11 main" >> /etc/apt/sources.list.d/koha.list
-
-RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main bullseye" >> /etc/apt/sources.list.d/koha.list
-
 RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
+
 RUN apt-get -y update
 
 RUN apt-cache policy koha-common
@@ -90,8 +87,6 @@ RUN apt-cache policy libyaml-libyaml-perl
 # Install koha-common
 RUN apt-get -y update \
    && apt-get -y install \
-         libsearch-elasticsearch-perl \
-         libsearch-elasticsearch-client-6-0-perl \
          koha-common \
    && /etc/init.d/koha-common stop \
    && rm -rf /var/cache/apt/archives/* \
@@ -106,17 +101,20 @@ RUN apt-get -y update \
          libexpat1-dev \
          libtemplate-plugin-gettext-perl \
          libdevel-cover-perl \
-\
-         libmoosex-attribute-env-perl \
-         libtest-dbix-class-perl \
-         libtap-harness-junit-perl \
-         libtext-csv-unicode-perl \
-         libdevel-cover-report-clover-perl \
-         libwebservice-ils-perl \
-         libselenium-remote-driver-perl \
-
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/api/lists/*
+
+RUN cpanm -i --force --mirror http://cpan.cpantesters.org/ \
+       DBD::SQLite \
+       HTTPD::Bench::ApacheBench \
+       MooseX::Attribute::ENV \
+       Test::DBIx::Class \
+       TAP::Harness::JUnit \
+       Text::CSV::Unicode \
+       Devel::Cover::Report::Clover \
+       WebService::ILS \
+       Selenium::Remote::Driver \
+    && rm -r /root/.cpanm
 
 # Install temporary package
 RUN apt-get -y update \
@@ -160,15 +158,11 @@ RUN cd /kohadevbox \
         libhtml-tableextract-perl \
         libtext-multimarkdown-perl \
         bugz \
-        librest-client-perl \
     && rm -rf /var/cache/apt/archives/* \
-    && rm -rf /var/lib/api/lists/*
-
-# Install testing extras
-RUN cpanm -i --force -n \
-       HTTPD::Bench::ApacheBench \
-       File::FindLib
-
+    && rm -rf /var/lib/api/lists/* \
+    && cpanm -i --force --mirror http://cpan.cpantesters.org/ \
+        File::FindLib \
+        REST::Client
 
 # Remote debugger
 RUN cd /kohadevbox \
