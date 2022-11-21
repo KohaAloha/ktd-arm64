@@ -40,29 +40,37 @@ my %builds = (
 
 zzz %b3;
 
+my @bs =   ( keys %builds ) ;
+zzz @bs;
+
+my  $template = '.gitlab-ci.yml';
+ $tt->process( "$template.tt", \%data, $template  )
+|| die $tt->error;
+
+exit;
+
+
 foreach my $b ( keys %builds ) {
 
-    zzz $b3{$b};
+#    zzz $b;
 
     #zzz @b33;
 
     #foreach my $b (
 
-    my %data = (
-        os_codename   => 'buster',
-        koha_codename => '21.11'
-    );
+    my $d  = $builds{$b};
+#    zzz $d;
 
+
+#--
     my $template = 'Dockerfile.tt';
-
-    warn $data{os_codename};
-
     mkdir "dists/$b";
-
     my $docker_file = "dists/" . $b  . '/Dockerfile';
     warn $docker_file;
-
-    $tt->process( $template, \%data, $docker_file )
+    $tt->process( $template, $d , $docker_file )
       || die $tt->error;
+
+#--
+
 
 }
