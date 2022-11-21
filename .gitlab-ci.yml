@@ -35,14 +35,12 @@ stages:
    #only:
     #- master-bullseye@mjames/ktd-arm64
 
-#22.05-buster:
-#  stage: build
-#  script:
-#  - docker build -t kohaaloha/arm64:22.05-buster --no-cache --rm -f dists/buster/Dockerfile .
-#  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-#  - docker push kohaaloha/arm64:22.05-buster
-#    #  - docker image rm kohaaloha/arm64:koha-testing:master-bullseye
-#   #only:
-#    #- master-bullseye@mjames/ktd-arm64
-#
-
+22.05-buster:
+  stage: build
+  script:
+  - docker build -t kohaaloha/arm64:22.05-buster --no-cache --rm -f dists/buster/Dockerfile .
+  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+  - docker push kohaaloha/arm64:22.05-buster
+    #  - docker image rm kohaaloha/arm64:koha-testing:master-bullseye
+   #only:
+    #- master-bullseye@mjames/ktd-arm64
