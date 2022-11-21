@@ -1,9 +1,9 @@
 # Base it on Debian 10
 #FROM debian:bullseye
-FROM arm64v8/debian:bullseye
+FROM arm64v8/debian:[% os_codename %]
 
 # File Author / Maintainer
-LABEL maintainer="tomascohen@theke.io"
+LABEL maintainer="mtj@kohaaloha.com"
 
 ENV PATH /usr/bin:/bin:/usr/sbin:/sbin
 ENV DEBIAN_FRONTEND noninteractive
@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Set suitable debian sources
 #RUN echo "deb http://httpredir.debian.org/debian bullseye main" > /etc/apt/sources.list
 
-ENV REFRESHED_AT 2021-06-17
+#ENV REFRESHED_AT 2021-06-17
 
 #RUN apt-get -y update
 
@@ -69,9 +69,8 @@ RUN a2enmod rewrite \
             proxy_http \
             cgi
 
-
 # Add Koha development repositories
-RUN echo "deb http://debian.koha-community.org/koha-staging 21.11 main" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://debian.koha-community.org/koha-staging [% koha_codename %] main" >> /etc/apt/sources.list.d/koha.list
 RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
 
 RUN apt-get -y update
