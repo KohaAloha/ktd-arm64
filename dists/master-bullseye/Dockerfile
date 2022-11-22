@@ -169,6 +169,14 @@ RUN cd /kohadevbox \
     && tar xvzf dbgp.tar.gz \
     && rm dbgp.tar.gz
 
+# Install temporary packages
+RUN apt-get update \
+   && apt-get -y install \
+       libmojolicious-plugin-oauth2-perl \
+       libmojolicious-plugin-renderfile-perl \
+   && rm -rf /var/cache/apt/archives/* \
+   && rm -rf /var/lib/api/lists/*
+
 VOLUME /kohadevbox/koha
 
 COPY files/run.sh /kohadevbox
