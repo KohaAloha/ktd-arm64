@@ -14,8 +14,8 @@ services:
 
 stages:
   - build
+[%- FOREACH b = b3  -%][% UNLESS b.value.skip %]
 
-[% FOREACH b = b3  %]
 [% b.key %]:
   stage: build
   script:
@@ -24,4 +24,4 @@ stages:
   - docker push kohaaloha/arm64:[% b.key %]
 #  only:
 #  - [% b.key %]@mjames/ktd-arm64
-[% END %]
+[%- END -%] [%- END -%]

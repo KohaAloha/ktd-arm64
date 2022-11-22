@@ -15,7 +15,6 @@ services:
 stages:
   - build
 
-
 21.05-bullseye:
   stage: build
   script:
@@ -43,15 +42,6 @@ stages:
 #  only:
 #  - 22.05-bullseye@mjames/ktd-arm64
 
-testing-bullseye:
-  stage: build
-  script:
-  - docker build -t kohaaloha/arm64:testing-bullseye --no-cache --rm -f dists/testing-bullseye/Dockerfile .
-  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-  - docker push kohaaloha/arm64:testing-bullseye
-#  only:
-#  - testing-bullseye@mjames/ktd-arm64
-
 unstable-bullseye:
   stage: build
   script:
@@ -60,4 +50,3 @@ unstable-bullseye:
   - docker push kohaaloha/arm64:unstable-bullseye
 #  only:
 #  - unstable-bullseye@mjames/ktd-arm64
-
