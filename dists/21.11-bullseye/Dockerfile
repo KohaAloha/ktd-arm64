@@ -97,6 +97,18 @@ RUN apt-get -y update \
 RUN mkdir /kohadevbox
 WORKDIR /kohadevbox
 
+RUN cpanm -i --force --mirror http://cpan.cpantesters.org/ \
+       DBD::SQLite \
+       HTTPD::Bench::ApacheBench \
+       MooseX::Attribute::ENV \
+       Test::DBIx::Class \
+       TAP::Harness::JUnit \
+       Text::CSV::Unicode \
+       Devel::Cover::Report::Clover \
+       WebService::ILS \
+       Selenium::Remote::Driver \
+    && rm -r /root/.cpanm
+
 # Install testing extras, packages and cpan
 RUN apt-get -y update \
    && apt-get -y install \
@@ -104,14 +116,6 @@ RUN apt-get -y update \
          libtemplate-plugin-gettext-perl \
          libdevel-cover-perl \
 \
-         libhttpd-bench-apachebench-perl \
-         libmoosex-attribute-env-perl \
-         libtest-dbix-class-perl \
-         libtap-harness-junit-perl \
-         libtext-csv-unicode-perl \
-         libdevel-cover-report-clover-perl \
-         libwebservice-ils-perl \
-         libselenium-remote-driver-perl \
          inotify-tools \
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/api/lists/*
