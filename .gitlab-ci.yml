@@ -16,7 +16,7 @@ stages:
   - build
 
 
-21.05-bullseye
+21.05-bullseye:
   stage: build
   script:
   - docker build -t kohaaloha/arm64:21.05-bullseye --no-cache --rm -f dists/21.05-bullseye/Dockerfile .
@@ -25,7 +25,7 @@ stages:
 #  only:
 #  - 21.05-bullseye@mjames/ktd-arm64
 
-21.11-bullseye
+21.11-bullseye:
   stage: build
   script:
   - docker build -t kohaaloha/arm64:21.11-bullseye --no-cache --rm -f dists/21.11-bullseye/Dockerfile .
@@ -34,7 +34,7 @@ stages:
 #  only:
 #  - 21.11-bullseye@mjames/ktd-arm64
 
-22.05-bullseye
+22.05-bullseye:
   stage: build
   script:
   - docker build -t kohaaloha/arm64:22.05-bullseye --no-cache --rm -f dists/22.05-bullseye/Dockerfile .
@@ -43,7 +43,7 @@ stages:
 #  only:
 #  - 22.05-bullseye@mjames/ktd-arm64
 
-testing-bullseye
+testing-bullseye:
   stage: build
   script:
   - docker build -t kohaaloha/arm64:testing-bullseye --no-cache --rm -f dists/testing-bullseye/Dockerfile .
@@ -52,7 +52,7 @@ testing-bullseye
 #  only:
 #  - testing-bullseye@mjames/ktd-arm64
 
-unstable-bullseye
+unstable-bullseye:
   stage: build
   script:
   - docker build -t kohaaloha/arm64:unstable-bullseye --no-cache --rm -f dists/unstable-bullseye/Dockerfile .
