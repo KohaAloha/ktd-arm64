@@ -1,6 +1,6 @@
 # Base it on Debian 10
 #FROM debian:bullseye
-FROM arm64v8/debian:buster
+FROM arm64v8/debian:bullseye
 
 # File Author / Maintainer
 LABEL maintainer="mtj@kohaaloha.com"
@@ -70,7 +70,7 @@ RUN a2enmod rewrite \
             cgi
 
 # Add Koha development repositories
-RUN echo "deb http://debian.koha-community.org/koha-staging 21.11 main" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://debian.koha-community.org/koha-staging testing main" >> /etc/apt/sources.list.d/koha.list
 RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
 
 RUN apt-get -y update
