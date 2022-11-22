@@ -16,7 +16,7 @@ stages:
   - build
 
 [% FOREACH b = b3  %]
-[% b.key %]
+[% b.key %]:
   stage: build
   script:
   - docker build -t kohaaloha/arm64:[% b.key %] --no-cache --rm -f dists/[% b.key %]/Dockerfile .
