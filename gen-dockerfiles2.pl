@@ -14,6 +14,7 @@ my %b3 = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'unstable',
         'koha_version'  => '22.06',
+        'skip'          => 1,
     },
 
     'testing-bullseye' => {
@@ -27,6 +28,7 @@ my %b3 = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
+        'skip'          => 1,
     },
 
     '21.11-bullseye' => {
@@ -40,6 +42,7 @@ my %b3 = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'oldoldstable',
         'koha_version'  => '21.05',
+        'skip'          => 1,
     },
 
 );
