@@ -10,11 +10,11 @@ my $tt = Template->new(
 );
 
 my %b3 = (
-    'unstable-bullseye' => {
+    'master-bullseye' => {
         'os_codename'   => 'bullseye',
-        'koha_codename' => 'unstable',
+        'koha_codename' => 'master',
         'koha_version'  => '22.06',
-        'skip'          => 1,
+#        'skip'          => 1,
     },
 
     'testing-bullseye' => {
@@ -60,9 +60,9 @@ my $template = '.gitlab-ci.yml';
 # $tt->process( "$template.tt", $vars ) || die $tt->error;
 $tt->process( "$template.tt", $vars, $template ) || die $tt->error;
 
-exit;
+#exit;
 
-foreach my $b ( keys %builds ) {
+foreach my $b ( keys %b3 ) {
 
     #    zzz $b;
 
