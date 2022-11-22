@@ -22,8 +22,8 @@ stages:
   - docker build -t kohaaloha/arm64:21.05-bullseye --no-cache --rm -f dists/21.05-bullseye/Dockerfile .
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
   - docker push kohaaloha/arm64:21.05-bullseye
-  only:
-  - 21.05-bullseye@mjames/ktd-arm64
+#  only:
+#  - 21.05-bullseye@mjames/ktd-arm64
 
 21.11-bullseye
   stage: build
@@ -31,8 +31,8 @@ stages:
   - docker build -t kohaaloha/arm64:21.11-bullseye --no-cache --rm -f dists/21.11-bullseye/Dockerfile .
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
   - docker push kohaaloha/arm64:21.11-bullseye
-  only:
-  - 21.11-bullseye@mjames/ktd-arm64
+#  only:
+#  - 21.11-bullseye@mjames/ktd-arm64
 
 22.05-bullseye
   stage: build
@@ -40,8 +40,8 @@ stages:
   - docker build -t kohaaloha/arm64:22.05-bullseye --no-cache --rm -f dists/22.05-bullseye/Dockerfile .
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
   - docker push kohaaloha/arm64:22.05-bullseye
-  only:
-  - 22.05-bullseye@mjames/ktd-arm64
+#  only:
+#  - 22.05-bullseye@mjames/ktd-arm64
 
 testing-bullseye
   stage: build
@@ -49,8 +49,8 @@ testing-bullseye
   - docker build -t kohaaloha/arm64:testing-bullseye --no-cache --rm -f dists/testing-bullseye/Dockerfile .
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
   - docker push kohaaloha/arm64:testing-bullseye
-  only:
-  - testing-bullseye@mjames/ktd-arm64
+#  only:
+#  - testing-bullseye@mjames/ktd-arm64
 
 unstable-bullseye
   stage: build
@@ -58,6 +58,6 @@ unstable-bullseye
   - docker build -t kohaaloha/arm64:unstable-bullseye --no-cache --rm -f dists/unstable-bullseye/Dockerfile .
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
   - docker push kohaaloha/arm64:unstable-bullseye
-  only:
-  - unstable-bullseye@mjames/ktd-arm64
+#  only:
+#  - unstable-bullseye@mjames/ktd-arm64
 
