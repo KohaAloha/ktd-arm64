@@ -14,7 +14,8 @@ my %b3 = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'master',
         'koha_version'  => '22.06',
-#        'skip'          => 1,
+
+        #        'skip'          => 1,
     },
 
     'testing-bullseye' => {
@@ -46,7 +47,6 @@ my %b3 = (
     },
 
 );
-
 
 my $template = '.gitlab-ci.yml';
 $tt->process( "$template.tt", $vars, $template ) || die $tt->error;
