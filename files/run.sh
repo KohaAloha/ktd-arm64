@@ -214,7 +214,7 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   SELENIUM_ADDR=selenium \
                                   SELENIUM_PORT=4444 \
                                   TEST_QA=1 \
-                                  prove -j ${KOHA_PROVE_CPUS} \
+                                  prove -v -j ${KOHA_PROVE_CPUS} \
                                   --rules='par=t/db_dependent/00-strict.t' \
                                   --rules='seq=t/db_dependent/**.t' --rules='par=**' \
                                   --timer --harness=TAP::Harness::JUnit -s -r t/ xt/ \
@@ -238,7 +238,7 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   KOHA_PASS=${KOHA_PASS} \
                                   NODE_PATH=${NODE_PATH} \
                                   TEST_QA=1 \
-                                  xargs prove -j ${KOHA_PROVE_CPUS} \
+                                  xargs prove -v -j ${KOHA_PROVE_CPUS} \
                                   --rules='par=t/db_dependent/00-strict.t' \
                                   --rules='seq=t/db_dependent/**.t' --rules='par=**' \
                                   --timer --harness=TAP::Harness::JUnit -r -s \
@@ -317,7 +317,7 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   SELENIUM_ADDR=selenium \
                                   SELENIUM_PORT=4444 \
                                   TEST_QA=1 \
-                                  xargs prove --timer --harness=TAP::Harness::JUnit -r -v \
+                                  xargs prove -v --timer --harness=TAP::Harness::JUnit -r -v \
                                   && touch testing.success"
 
         else
@@ -334,7 +334,7 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   SELENIUM_ADDR=selenium \
                                   SELENIUM_PORT=4444 \
                                   TEST_QA=1 \
-                                  xargs prove -j ${KOHA_PROVE_CPUS} \
+                                  xargs prove -v -j ${KOHA_PROVE_CPUS} \
                                   --rules='par=t/db_dependent/00-strict.t' \
                                   --rules='seq=t/db_dependent/**.t' \
                                   --timer --harness=TAP::Harness::JUnit -r \
