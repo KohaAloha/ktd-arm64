@@ -10,41 +10,8 @@ my $tt  = Template->new({
 
 
 
-my %builds = (
 
-    '21.11-bullseye' => {
-        'os_codename'   => 'bullseye',
-        'koha_codename' => 'oldstable',
-        'koha_version' => '21.11',
-    },
-
-    '21.05-bullseye' => {
-        'os_codename'   => 'bullseye',
-        'koha_codename' => 'oldoldstable',
-        'koha_version' => '21.05',
-    },
-
-);
-
-
-my %b3  ;
-%b3  = (
-
-    '21.11-bullseye' => {
-        'os_codename'   => 'bullseye',
-        'koha_codename' => 'oldstable',
-        'koha_version' => '21.11',
-    },
-
-    '21.05-bullseye' => {
-        'os_codename'   => 'bullseye',
-        'koha_codename' => 'oldoldstable',
-        'koha_version' => '21.05',
-    },
-
-);
-
-%b3  = (
+my %b3  = (
     'unstable-bullseye' => {
         'os_codename'   => 'bullseye',
         'koha_codename' => 'unstable',
@@ -76,8 +43,6 @@ my %b3  ;
     },
 
 );
-
-
 
 
 my $vars = {
