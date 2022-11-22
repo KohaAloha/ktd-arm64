@@ -11,6 +11,11 @@ export KOHA_INTRANET_URL=http://${KOHA_INTRANET_FQDN}:${KOHA_INTRANET_PORT}
 export KOHA_OPAC_FQDN=${KOHA_OPAC_PREFIX}${KOHA_INSTANCE}${KOHA_OPAC_SUFFIX}${KOHA_DOMAIN}
 export KOHA_OPAC_URL=http://${KOHA_OPAC_FQDN}:${KOHA_OPAC_PORT}
 
+export PATH=${PATH}:/kohadevbox/bin:/kohadevbox/koha/node_modules/.bin/:/kohadevbox/node_modules/.bin/
+
+# Node stuff
+export NODE_PATH=/kohadevbox/node_modules:$NODE_PATH
+
 # Set a fixed hostname
 echo "kohadevbox" > /etc/hostname
 
@@ -87,9 +92,10 @@ VARS_TO_SUB="\$BUILD_DIR:$VARS_TO_SUB";
 envsubst "$VARS_TO_SUB" < ${BUILD_DIR}/templates/root_bashrc           > /root/.bashrc
 envsubst "$VARS_TO_SUB" < ${BUILD_DIR}/templates/vimrc                 > /root/.vimrc
 envsubst "$VARS_TO_SUB" < ${BUILD_DIR}/templates/bash_aliases          > /root/.bash_aliases
-envsubst "$VARS_TO_SUB" < ${BUILD_DIR}/templates/gitconfig             > /root/.gitconfig
 envsubst "$VARS_TO_SUB" < ${BUILD_DIR}/templates/koha-conf-site.xml.in > /etc/koha/koha-conf-site.xml.in
 envsubst "$VARS_TO_SUB" < ${BUILD_DIR}/templates/koha-sites.conf       > /etc/koha/koha-sites.conf
+# .gitconfig shouldn't get GIT_USER_* variables replaced
+cp ${BUILD_DIR}/templates/gitconfig /root/.gitconfig
 
 # bin
 mkdir -p ${BUILD_DIR}/bin
@@ -102,7 +108,7 @@ chmod +x ${BUILD_DIR}/bin/*
 koha-create --request-db ${KOHA_INSTANCE} --memcached-servers memcached:11211
 # Fix UID
 if [ ${LOCAL_USER_ID} ]; then
-    usermod -u ${LOCAL_USER_ID} "${KOHA_INSTANCE}-koha"
+    usermod -o -u ${LOCAL_USER_ID} "${KOHA_INSTANCE}-koha"
     # Fix permissions due to UID change
     chown -R "${KOHA_INSTANCE}-koha" "/var/cache/koha/${KOHA_INSTANCE}"
     chown -R "${KOHA_INSTANCE}-koha" "/var/lib/koha/${KOHA_INSTANCE}"
@@ -204,6 +210,7 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   KOHA_OPAC_URL=http://koha:8080 \
                                   KOHA_USER=${KOHA_USER} \
                                   KOHA_PASS=${KOHA_PASS} \
+                                  NODE_PATH=${NODE_PATH} \
                                   SELENIUM_ADDR=selenium \
                                   SELENIUM_PORT=4444 \
                                   TEST_QA=1 \
@@ -221,7 +228,6 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                     -not -path \"t/db_dependent/selenium/*\" \
                                     -not -path \"t/db_dependent/Koha/SearchEngine/Elasticsearch/*\" \
                                     -not -path \"t/db_dependent/Koha/SearchEngine/*\" \
-                                    -not -path \"t/db_dependent/00-strict.t\" \
                                 |
                                   JUNIT_OUTPUT_FILE=junit_main.xml \
                                   KOHA_TESTING=1 \
@@ -230,8 +236,10 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   KOHA_OPAC_URL=http://koha:8080 \
                                   KOHA_USER=${KOHA_USER} \
                                   KOHA_PASS=${KOHA_PASS} \
+                                  NODE_PATH=${NODE_PATH} \
                                   TEST_QA=1 \
-                                  xargs prove -v -j ${KOHA_PROVE_CPUS} \
+                                  xargs prove -j ${KOHA_PROVE_CPUS} \
+                                  --rules='par=t/db_dependent/00-strict.t' \
                                   --rules='seq=t/db_dependent/**.t' --rules='par=**' \
                                   --timer --harness=TAP::Harness::JUnit -r -s \
                                   && touch testing.success"
@@ -245,11 +253,13 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   KOHA_OPAC_URL=http://koha:8080 \
                                   KOHA_USER=${KOHA_USER} \
                                   KOHA_PASS=${KOHA_PASS} \
+                                  NODE_PATH=${NODE_PATH} \
                                   TEST_QA=1 \
                                   prove -v --timer --harness=TAP::Harness::JUnit -r \
                                     t/Koha/Config.t \
                                     t/Koha/SearchEngine \
                                     t/db_dependent/Biblio.t \
+                                    t/db_dependent/Search.t \
                                     t/db_dependent/Koha/Authorities.t \
                                     t/db_dependent/Koha/Z3950Responder/GenericSession.t \
                                     t/db_dependent/Koha/SearchEngine \
@@ -277,10 +287,11 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   KOHA_OPAC_URL=http://koha:8080 \
                                   KOHA_USER=${KOHA_USER} \
                                   KOHA_PASS=${KOHA_PASS} \
+                                  NODE_PATH=${NODE_PATH} \
                                   SELENIUM_ADDR=selenium \
                                   SELENIUM_PORT=4444 \
                                   TEST_QA=1 \
-                                  prove t/db_dependent/selenium/00-onboarding.t"
+                                  prove -v t/db_dependent/selenium/00-onboarding.t"
 
         koha-mysql ${KOHA_INSTANCE} -e "DROP DATABASE koha_${KOHA_INSTANCE};"
         mysql -h db -u koha_${KOHA_INSTANCE} -ppassword -e"CREATE DATABASE koha_${KOHA_INSTANCE};"
@@ -290,7 +301,10 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
         sudo service apache2 restart
         sudo service koha-common restart
 
-        koha-shell ${KOHA_INSTANCE} -p -c "{ ( find t/db_dependent/selenium -name '*.t' -not -name '00-onboarding.t' | sort ) ; ( find t xt -name '*.t' -not -path \"t/db_dependent/selenium/*\" | shuf ) } \
+
+        if [ "$LIGHT_TEST_SUITE" = "3" ]; then # selenium tests only
+            koha-shell ${KOHA_INSTANCE} -p -c "find t/db_dependent/selenium -name '*.t' \
+                                    -not -name '00-onboarding.t' | sort  \
                                 |
                                   JUNIT_OUTPUT_FILE=junit_main.xml \
                                   KOHA_TESTING=1 \
@@ -299,6 +313,24 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   KOHA_OPAC_URL=http://koha:8080 \
                                   KOHA_USER=${KOHA_USER} \
                                   KOHA_PASS=${KOHA_PASS} \
+                                  NODE_PATH=${NODE_PATH} \
+                                  SELENIUM_ADDR=selenium \
+                                  SELENIUM_PORT=4444 \
+                                  TEST_QA=1 \
+                                  xargs prove --timer --harness=TAP::Harness::JUnit -r -v \
+                                  && touch testing.success"
+
+        else
+            koha-shell ${KOHA_INSTANCE} -p -c "{ ( find t/db_dependent/selenium -name '*.t' -not -name '00-onboarding.t' | sort ) ; ( find t xt -name '*.t' -not -path \"t/db_dependent/selenium/*\" | shuf ) } \
+                                |
+                                  JUNIT_OUTPUT_FILE=junit_main.xml \
+                                  KOHA_TESTING=1 \
+                                  KOHA_NO_TABLE_LOCKS=1 \
+                                  KOHA_INTRANET_URL=http://koha:8081 \
+                                  KOHA_OPAC_URL=http://koha:8080 \
+                                  KOHA_USER=${KOHA_USER} \
+                                  KOHA_PASS=${KOHA_PASS} \
+                                  NODE_PATH=${NODE_PATH} \
                                   SELENIUM_ADDR=selenium \
                                   SELENIUM_PORT=4444 \
                                   TEST_QA=1 \
@@ -307,9 +339,20 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                   --rules='seq=t/db_dependent/**.t' \
                                   --timer --harness=TAP::Harness::JUnit -r \
                                   && touch testing.success"
+        fi
 
     fi
 else
+
+# start koha-reload-starman, if we have inotify installed
+#    if [ -f "/usr/bin/inotifywait" ]; then
+#        daemon  --verbose=1 \
+#            --name=reload-starman \
+#            --respawn \
+#            --delay=15 \
+#            --pidfiles=/var/run/koha/kohadev/ -- /kohadevbox/koha-reload-starman
+#    fi
+
     # TODO: We could use supervise as the main loop
     /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 fi
