@@ -36,6 +36,7 @@ my %b3 = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'oldstable',
         'koha_version'  => '21.11',
+        'skip'          => 1,
         'default'       => 1,
     },
 
@@ -59,10 +60,7 @@ $template = 'Dockerfile.tt';
 
 foreach my $b ( keys %b3 ) {
 
-    zzz $b;
-
     my $d = $b3{$b};
-    zzz $d;
 
     mkdir "dists/$b";
     my $docker_file = "dists/" . $b . '/Dockerfile';
