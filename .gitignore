@@ -6,6 +6,8 @@
 *.o
 *.pm.tdy
 *.bs
+*.swp
+*.swo
 .nfs*
 
 # Devel::Cover
