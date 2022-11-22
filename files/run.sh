@@ -228,6 +228,7 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
                                     -not -path \"t/db_dependent/selenium/*\" \
                                     -not -path \"t/db_dependent/Koha/SearchEngine/Elasticsearch/*\" \
                                     -not -path \"t/db_dependent/Koha/SearchEngine/*\" \
+                                    -not -path \"t/db_dependent/00-strict.t\" \
                                 |
                                   JUNIT_OUTPUT_FILE=junit_main.xml \
                                   KOHA_TESTING=1 \
