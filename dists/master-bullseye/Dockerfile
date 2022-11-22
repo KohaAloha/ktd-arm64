@@ -141,7 +141,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.lis
 
 # Install Node.js (includes npm) and Yarn
 RUN apt-get update \
-   && apt-get -y install nodejs yarn webpack \
+   && apt-get -y install nodejs yarn \
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/api/lists/*
 # Install gulp
