@@ -12,7 +12,7 @@ my $tt = Template->new(
 my %b3 = (
     'master-bullseye' => {
         'os_codename'   => 'bullseye',
-        'koha_codename' => 'master',
+        'koha_codename' => 'unstable',
         'koha_version'  => '22.06',
 
         #        'skip'          => 1,
