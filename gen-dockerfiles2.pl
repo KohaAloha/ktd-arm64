@@ -48,6 +48,8 @@ my %b3 = (
 
 );
 
+my $vars = { b3 => \%b3 };
+
 my $template = '.gitlab-ci.yml';
 $tt->process( "$template.tt", $vars, $template ) || die $tt->error;
 
@@ -57,10 +59,15 @@ $template = 'Dockerfile.tt';
 
 foreach my $b ( keys %b3 ) {
 
+    zzz $b;
+
     my $d = $b3{$b};
+    zzz $d;
+
     mkdir "dists/$b";
     my $docker_file = "dists/" . $b . '/Dockerfile';
-    warn $docker_file;
+
+    #    warn $docker_file;
     $tt->process( $template, $d, $docker_file )
       || die $tt->error;
 

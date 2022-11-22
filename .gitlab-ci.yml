@@ -14,3 +14,21 @@ services:
 
 stages:
   - build
+
+21.11-bullseye:
+  stage: build
+  script:
+  - docker build -t kohaaloha/arm64:21.11-bullseye --no-cache --rm -f dists/21.11-bullseye/Dockerfile .
+  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+  - docker push kohaaloha/arm64:21.11-bullseye
+#  only:
+#  - 21.11-bullseye@mjames/ktd-arm64
+
+master-bullseye:
+  stage: build
+  script:
+  - docker build -t kohaaloha/arm64:master-bullseye --no-cache --rm -f dists/master-bullseye/Dockerfile .
+  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+  - docker push kohaaloha/arm64:master-bullseye
+#  only:
+#  - master-bullseye@mjames/ktd-arm64
