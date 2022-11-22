@@ -1,5 +1,4 @@
 # Base it on Debian 10
-#FROM debian:bullseye
 FROM arm64v8/debian:bullseye
 
 # File Author / Maintainer
@@ -11,13 +10,14 @@ ENV DEBIAN_FRONTEND noninteractive
 # Set suitable debian sources
 #RUN echo "deb http://httpredir.debian.org/debian bullseye main" > /etc/apt/sources.list
 
-#ENV REFRESHED_AT 2021-06-17
+ENV REFRESHED_AT 2021-06-17
 
 #RUN apt-get -y update
 
 # Install apache2 and testting deps
 # netcat: used for checking the DB is up
 RUN apt-get -y update \
+    && apt-get -y upgrade \
     && apt-get -y install \
       apache2 \
       build-essential \
@@ -69,10 +69,13 @@ RUN a2enmod rewrite \
             proxy_http \
             cgi
 
-# Add Koha development repositories
-RUN echo "deb http://debian.koha-community.org/koha-staging oldoldstable main" >> /etc/apt/sources.list.d/koha.list
-RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
 
+# Add Koha development repositories
+#RUN echo "deb http://debian.koha-community.org/koha-staging exp main" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://debian.koha-community.org/koha-staging oldoldstable main" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main bullseye" >> /etc/apt/sources.list.d/koha.list
+
+RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
 RUN apt-get -y update
 
 RUN apt-cache policy koha-common
@@ -100,20 +103,18 @@ RUN apt-get -y update \
          libexpat1-dev \
          libtemplate-plugin-gettext-perl \
          libdevel-cover-perl \
+\
+         libhttpd-bench-apachebench-perl \
+         libmoosex-attribute-env-perl \
+         libtest-dbix-class-perl \
+         libtap-harness-junit-perl \
+         libtext-csv-unicode-perl \
+         libdevel-cover-report-clover-perl \
+         libwebservice-ils-perl \
+         libselenium-remote-driver-perl \
+         inotify-tools \
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/api/lists/*
-
-RUN cpanm -i --force --mirror http://cpan.cpantesters.org/ \
-       DBD::SQLite \
-       HTTPD::Bench::ApacheBench \
-       MooseX::Attribute::ENV \
-       Test::DBIx::Class \
-       TAP::Harness::JUnit \
-       Text::CSV::Unicode \
-       Devel::Cover::Report::Clover \
-       WebService::ILS \
-       Selenium::Remote::Driver \
-    && rm -r /root/.cpanm
 
 # Install temporary package
 RUN apt-get -y update \
@@ -122,21 +123,32 @@ RUN apt-get -y update \
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/api/lists/*
 
-## Add Yarn
-# Add node repo
-RUN wget -q -O- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN echo "deb http://deb.nodesource.com/node_12.x sid main" > /etc/apt/sources.list.d/node.list
+# Add Node.js
+RUN wget -O- -q https://deb.nodesource.com/setup_14.x | bash -
+# Pin Node.js v14
+COPY files/nodejs.pin /etc/apt/preferences.d/nodejs
+
 # Add yarn repo
-RUN wget -q -O- https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-# Install Node.js and Yarn
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
+   && wget -O- -q https://dl.yarnpkg.com/debian/pubkey.gpg \
+      | gpg --dearmor \
+      | tee /usr/share/keyrings/yarnkey.gpg >/dev/null \
+   && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+# Install Node.js (includes npm) and Yarn
 RUN apt-get update \
    && apt-get -y install nodejs yarn \
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/api/lists/*
-
 # Install gulp
 RUN npm install gulp-cli -g
+
+# Embed /kohadevbox/node_modules
+RUN cd /kohadevbox \
+    && wget -q https://gitlab.com/koha-community/Koha/-/raw/master/package.json?inline=false -O package.json \
+    && wget -q https://gitlab.com/koha-community/Koha/-/raw/master/yarn.lock?inline=false -O yarn.lock \
+    && yarn install --modules-folder /kohadevbox/node_modules \
+    && rm -f package.json yarn.lock
 
 # Add git-bz
 RUN cd /usr/local/share \
@@ -157,11 +169,10 @@ RUN cd /kohadevbox \
         libhtml-tableextract-perl \
         libtext-multimarkdown-perl \
         bugz \
+        libfile-findlib-perl \
+        librest-client-perl \
     && rm -rf /var/cache/apt/archives/* \
-    && rm -rf /var/lib/api/lists/* \
-    && cpanm -i --force --mirror http://cpan.cpantesters.org/ \
-        File::FindLib \
-        REST::Client
+    && rm -rf /var/lib/api/lists/*
 
 # Remote debugger
 RUN cd /kohadevbox \
