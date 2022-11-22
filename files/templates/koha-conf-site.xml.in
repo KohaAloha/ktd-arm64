@@ -343,8 +343,8 @@ __END_SRU_PUBLICSERVER__
  <sms_send_config>__KOHA_CONF_DIR__/sms_send/</sms_send_config>
 
  <!-- Configuration for Plack -->
- <plack_max_requests>50</plack_max_requests>
- <plack_workers>2</plack_workers>
+ <plack_max_requests>${PLACK_MAX_REQUESTS}</plack_max_requests>
+ <plack_workers>${PLACK_WORKERS}</plack_workers>
 
  <!-- Configuration for X-Forwarded-For -->
  <!--
@@ -353,8 +353,9 @@ __END_SRU_PUBLICSERVER__
 
  <!-- Elasticsearch Configuration -->
  <elasticsearch>
-     <server>es:9200</server>
+     <server>${ELASTIC_SERVER}</server>
      <index_name>koha___KOHASITE__</index_name>
+     ${ELASTIC_OPTIONS}
  </elasticsearch>
  <!-- Uncomment the following line if you want to override the Elasticsearch default index settings -->
  <!-- <elasticsearch_index_config>__KOHA_CONF_DIR__/searchengine/elasticsearch/index_config.yaml</elasticsearch_index_config> -->
@@ -399,6 +400,8 @@ __END_SRU_PUBLICSERVER__
       instance to be something other then the local timezone of the
       server. e.g. Antarctica/South_Pole -->
  <timezone>__TIMEZONE__</timezone>
+
+ <encryption_key>t0P_secret</encryption_key>
 
  <dev_install>1</dev_install>
  <strict_sql_modes>1</strict_sql_modes>
