@@ -62,6 +62,8 @@ $tt->process( "$template.tt", $vars, $template ) || die $tt->error;
 
 #exit;
 
+$template = 'Dockerfile.tt';
+
 foreach my $b ( keys %b3 ) {
 
     #    zzz $b;
@@ -70,12 +72,11 @@ foreach my $b ( keys %b3 ) {
 
     #foreach my $b (
 
-    my $d = $builds{$b};
+    my $d = $b3{$b};
 
     #    zzz $d;
 
     #--
-    my $template = 'Dockerfile.tt';
     mkdir "dists/$b";
     my $docker_file = "dists/" . $b . '/Dockerfile';
     warn $docker_file;
