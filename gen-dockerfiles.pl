@@ -27,7 +27,6 @@ my %b3 = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
-        'skip'          => 1,
     },
 
     '21.11-bullseye' => {
