@@ -1,3 +1,5 @@
+#!/usr/bin/perl
+
 use Template;
 use Template::Constants qw( :debug );
 
