@@ -15,23 +15,14 @@ services:
 stages:
   - build
 
-21.05-bullseye:
+22.05-bookworm:
   stage: build
   script:
-  - docker build -t kohaaloha/arm64:21.05-bullseye --no-cache --rm -f dists/21.05-bullseye/Dockerfile .
+  - docker build -t kohaaloha/arm64:22.05-bookworm --no-cache --rm -f dists/22.05-bookworm/Dockerfile .
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-  - docker push kohaaloha/arm64:21.05-bullseye
+  - docker push kohaaloha/arm64:22.05-bookworm
 #  only:
-#  - 21.05-bullseye@mjames/ktd-arm64
-
-21.11-bullseye:
-  stage: build
-  script:
-  - docker build -t kohaaloha/arm64:21.11-bullseye --no-cache --rm -f dists/21.11-bullseye/Dockerfile .
-  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-  - docker push kohaaloha/arm64:21.11-bullseye
-#  only:
-#  - 21.11-bullseye@mjames/ktd-arm64
+#  - 22.05-bookworm@mjames/ktd-arm64
 
 22.05-bullseye:
   stage: build
@@ -41,6 +32,15 @@ stages:
   - docker push kohaaloha/arm64:22.05-bullseye
 #  only:
 #  - 22.05-bullseye@mjames/ktd-arm64
+
+22.05-buster:
+  stage: build
+  script:
+  - docker build -t kohaaloha/arm64:22.05-buster --no-cache --rm -f dists/22.05-buster/Dockerfile .
+  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+  - docker push kohaaloha/arm64:22.05-buster
+#  only:
+#  - 22.05-buster@mjames/ktd-arm64
 
 master-bullseye:
   stage: build

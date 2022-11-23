@@ -23,16 +23,33 @@ my %builds = (
         'skip'          => 1,
     },
 
+# ---------------
+
+    '22.05-bookworm' => {
+        'os_codename'   => 'bookworm',
+        'koha_codename' => 'stable',
+        'koha_version'  => '22.05',
+    },
+
     '22.05-bullseye' => {
         'os_codename'   => 'bullseye',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
     },
 
+    '22.05-buster' => {
+        'os_codename'   => 'buster',
+        'koha_codename' => 'stable',
+        'koha_version'  => '22.05',
+    },
+
+# ---------------
+
     '21.11-bullseye' => {
         'os_codename'   => 'bullseye',
         'koha_codename' => 'oldstable',
         'koha_version'  => '21.11',
+        'skip'          => 1,
         'default'       => 1,
     },
 
@@ -40,6 +57,7 @@ my %builds = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'oldoldstable',
         'koha_version'  => '21.05',
+        'skip'          => 1,
     },
 
 
