@@ -14,7 +14,7 @@ services:
 
 stages:
   - build
-[%- FOREACH b = b3  -%][% UNLESS b.value.skip %]
+[%- FOREACH b IN builds  -%][% UNLESS b.value.skip %]
 
 [% b.key %]:
   stage: build

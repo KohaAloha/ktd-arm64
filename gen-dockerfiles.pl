@@ -9,7 +9,7 @@ my $tt = Template->new(
     }
 );
 
-my %b3 = (
+my %builds = (
     'master-bullseye' => {
         'os_codename'   => 'bullseye',
         'koha_codename' => 'unstable',
@@ -45,7 +45,7 @@ my %b3 = (
 
 );
 
-my $vars = { b3 => \%b3 };
+my $vars = { builds => \%builds };
 
 my $template = '.gitlab-ci.yml';
 $tt->process( "$template.tt", $vars, $template ) || die $tt->error;
@@ -54,15 +54,15 @@ $tt->process( "$template.tt", $vars, $template ) || die $tt->error;
 
 $template = 'Dockerfile.tt';
 
-foreach my $b ( keys %b3 ) {
+foreach my $buildname ( keys %builds ) {
 
-    my $d = $b3{$b};
+    my $b_href = $builds{$buildname};
 
-    mkdir "dists/$b";
-    my $docker_file = "dists/" . $b . '/Dockerfile';
+    mkdir "dists/$buildname";
+    my $docker_file = "dists/" . $buildname . '/Dockerfile';
 
     #    warn $docker_file;
-    $tt->process( $template, $d, $docker_file )
+    $tt->process( $template, $b_href, $docker_file )
       || die $tt->error;
 
 }
