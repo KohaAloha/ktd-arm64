@@ -42,6 +42,15 @@ stages:
 #  only:
 #  - 22.05-buster@mjames/ktd-arm64
 
+22.05-sid:
+  stage: build
+  script:
+  - docker build -t kohaaloha/arm64:22.05-sid --no-cache --rm -f dists/22.05-sid/Dockerfile .
+  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+  - docker push kohaaloha/arm64:22.05-sid
+#  only:
+#  - 22.05-sid@mjames/ktd-arm64
+
 master-bullseye:
   stage: build
   script:

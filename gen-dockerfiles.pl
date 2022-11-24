@@ -27,6 +27,12 @@ my %builds = (
 
 # ---------------
 
+    '22.05-sid' => {
+        'os_codename'   => 'sid',
+        'koha_codename' => 'stable',
+        'koha_version'  => '22.05',
+    },
+
     '22.05-bookworm' => {
         'os_codename'   => 'bookworm',
         'koha_codename' => 'stable',
