@@ -5,6 +5,8 @@ set -e
 export BUILD_DIR=/kohadevbox
 export TEMP=/tmp
 
+/usr/bin/figlet 'koha   starting...'
+
 # Handy variables
 export KOHA_INTRANET_FQDN=${KOHA_INTRANET_PREFIX}${KOHA_INSTANCE}${KOHA_INTRANET_SUFFIX}${KOHA_DOMAIN}
 export KOHA_INTRANET_URL=http://${KOHA_INTRANET_FQDN}:${KOHA_INTRANET_PORT}
@@ -357,5 +359,7 @@ else
 #    fi
 
     # TODO: We could use supervise as the main loop
+
+    /usr/bin/figlet 'koha   ready...'
     /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 fi
