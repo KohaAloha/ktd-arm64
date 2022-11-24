@@ -46,6 +46,7 @@ RUN apt-get -y update \
       apt-transport-https \
       mlocate \
       iproute2 \
+      figlet \
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/apt/lists/*
 
