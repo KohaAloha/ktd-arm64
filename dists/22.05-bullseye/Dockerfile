@@ -69,7 +69,6 @@ RUN a2enmod rewrite \
             proxy_http \
             cgi
 
-
 # Add Koha development repositories
 #RUN echo "deb http://debian.koha-community.org/koha-staging exp main" >> /etc/apt/sources.list.d/koha.list
 RUN echo "deb http://debian.koha-community.org/koha-staging stable main" >> /etc/apt/sources.list.d/koha.list
