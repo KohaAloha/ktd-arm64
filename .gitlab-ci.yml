@@ -51,6 +51,15 @@ stages:
 #  only:
 #  - 22.05-sid@mjames/ktd-arm64
 
+master-bookworm:
+  stage: build
+  script:
+  - docker build -t kohaaloha/arm64:master-bookworm --no-cache --rm -f dists/master-bookworm/Dockerfile .
+  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+  - docker push kohaaloha/arm64:master-bookworm
+#  only:
+#  - master-bookworm@mjames/ktd-arm64
+
 master-bullseye:
   stage: build
   script:
@@ -59,3 +68,12 @@ master-bullseye:
   - docker push kohaaloha/arm64:master-bullseye
 #  only:
 #  - master-bullseye@mjames/ktd-arm64
+
+master-buster:
+  stage: build
+  script:
+  - docker build -t kohaaloha/arm64:master-buster --no-cache --rm -f dists/master-buster/Dockerfile .
+  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+  - docker push kohaaloha/arm64:master-buster
+#  only:
+#  - master-buster@mjames/ktd-arm64

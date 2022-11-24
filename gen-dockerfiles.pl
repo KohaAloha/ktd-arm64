@@ -12,8 +12,21 @@ my $tt = Template->new(
 );
 
 my %builds = (
+
+    'master-bookworm' => {
+        'os_codename'   => 'bookworm',
+        'koha_codename' => 'unstable',
+        'koha_version'  => '22.06',
+    },
+
     'master-bullseye' => {
         'os_codename'   => 'bullseye',
+        'koha_codename' => 'unstable',
+        'koha_version'  => '22.06',
+    },
+
+    'master-buster' => {
+        'os_codename'   => 'buster',
         'koha_codename' => 'unstable',
         'koha_version'  => '22.06',
     },
