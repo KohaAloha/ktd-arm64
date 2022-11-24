@@ -14,24 +14,28 @@ my $tt = Template->new(
 my %builds = (
 
     'master-bookworm' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'bookworm',
         'koha_codename' => 'unstable',
         'koha_version'  => '22.06',
     },
 
     'master-bullseye' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'bullseye',
         'koha_codename' => 'unstable',
         'koha_version'  => '22.06',
     },
 
     'master-buster' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'buster',
         'koha_codename' => 'unstable',
         'koha_version'  => '22.06',
     },
 
     'testing-bullseye' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'bullseye',
         'koha_codename' => 'testing',
         'koha_version'  => '22.06',
@@ -41,25 +45,36 @@ my %builds = (
 # ---------------
 
     '22.05-sid' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'sid',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
     },
 
     '22.05-bookworm' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'bookworm',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
     },
 
     '22.05-bullseye' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'bullseye',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
     },
 
     '22.05-buster' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'buster',
+        'koha_codename' => 'stable',
+        'koha_version'  => '22.05',
+    },
+
+    '22.05-jammy' => {
+        'os_name'       => 'ubuntu',
+        'os_codename'   => 'jammy',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
     },
@@ -67,6 +82,7 @@ my %builds = (
 # ---------------
 
     '21.11-bullseye' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'bullseye',
         'koha_codename' => 'oldstable',
         'koha_version'  => '21.11',
@@ -75,6 +91,7 @@ my %builds = (
     },
 
     '21.05-bullseye' => {
+        'os_name'       => 'debian',
         'os_codename'   => 'bullseye',
         'koha_codename' => 'oldoldstable',
         'koha_version'  => '21.05',

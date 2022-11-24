@@ -1,5 +1,5 @@
 # Base it on Debian 10
-FROM arm64v8/debian:[% os_codename %]
+FROM arm64v8/[% os_name %]:[% os_codename %]
 
 # File Author / Maintainer
 LABEL maintainer="mtj@kohaaloha.com"
