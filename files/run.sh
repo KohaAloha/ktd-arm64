@@ -347,6 +347,7 @@ if [ "$RUN_TESTS_AND_EXIT" = "yes" ]; then
         fi
 
     fi
+    /usr/bin/figlet 'koha   finished.'
 else
 
 # start koha-reload-starman, if we have inotify installed
@@ -360,6 +361,6 @@ else
 
     # TODO: We could use supervise as the main loop
 
-    /usr/bin/figlet 'koha   ready...'
+    /usr/bin/figlet 'koha   ready!'
     /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 fi
