@@ -23,7 +23,7 @@ my %builds = (
     'master-bullseye' => {
         'os_name'       => 'debian',
         'os_codename'   => 'bullseye',
-        'koha_codename' => 'unstable',
+        'koha_codename' => 'dev',
         'koha_version'  => '22.06',
     },
 
