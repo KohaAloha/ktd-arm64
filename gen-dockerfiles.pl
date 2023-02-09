@@ -27,6 +27,15 @@ my %builds = (
         'koha_version'  => '22.06',
     },
 
+
+    'master-bullseye-cpan' => {
+        'os_name'       => 'debian',
+        'os_codename'   => 'bullseye',
+        'koha_codename' => 'unstable',
+        'koha_version'  => '22.06',
+        'cpan'          => 1,
+    },
+
     'master-buster' => {
         'os_name'       => 'debian',
         'os_codename'   => 'buster',
