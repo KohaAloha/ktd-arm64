@@ -18,6 +18,7 @@ my %builds = (
         'os_codename'   => 'bookworm',
         'koha_codename' => 'unstable',
         'koha_version'  => '22.06',
+        'skip'          => 1,
     },
 
     'master-bullseye' => {
@@ -34,6 +35,7 @@ my %builds = (
         'koha_codename' => 'unstable',
         'koha_version'  => '22.06',
         'cpan'          => 1,
+        'skip'          => 1,
     },
 
     'master-buster' => {
@@ -41,6 +43,7 @@ my %builds = (
         'os_codename'   => 'buster',
         'koha_codename' => 'unstable',
         'koha_version'  => '22.06',
+        'skip'          => 1,
     },
 
     'testing-bullseye' => {
@@ -58,6 +61,7 @@ my %builds = (
         'os_codename'   => 'sid',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
+        'skip'          => 1,
     },
 
     '22.05-bookworm' => {
@@ -65,6 +69,7 @@ my %builds = (
         'os_codename'   => 'bookworm',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
+        'skip'          => 1,
     },
 
     '22.05-bullseye' => {
@@ -72,6 +77,7 @@ my %builds = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
+        'skip'          => 1,
     },
 
     '22.05-buster' => {
@@ -79,6 +85,7 @@ my %builds = (
         'os_codename'   => 'buster',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
+        'skip'          => 1,
     },
 
     '22.05-jammy' => {
@@ -86,6 +93,7 @@ my %builds = (
         'os_codename'   => 'jammy',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
+        'skip'          => 1,
     },
 
 # ---------------
