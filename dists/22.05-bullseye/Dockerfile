@@ -75,8 +75,15 @@ RUN a2enmod rewrite \
 RUN echo "deb http://debian.koha-community.org/koha-staging stable main" >> /etc/apt/sources.list.d/koha.list
 RUN echo "deb http://deb3.kohaaloha.com/ka/koha-deps stable main bullseye" >> /etc/apt/sources.list.d/koha.list
 
-RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
-RUN apt-get -y update
+#RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
+#RUN apt-get -y update
+
+RUN apt-get update
+RUN apt-get -y install sudo wget gnupg2
+RUN wget -qO - https://debian.koha-community.org/koha/gpg.asc | gpg --dearmor -o /usr/share/keyrings/koha-keyring.gpg
+RUN apt-get update
+
+
 
 RUN apt-cache policy koha-common
 RUN apt-cache policy libmojolicious-perl
