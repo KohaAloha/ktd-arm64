@@ -77,7 +77,7 @@ RUN wget -qO - https://debian.koha-community.org/koha/gpg.asc | gpg --dearmor -o
 
 # Add Koha development repositories
 #RUN echo "deb http://debian.koha-community.org/koha-staging exp main" >> /etc/apt/sources.list.d/koha.list
-RUN echo "deb [signed-by=/usr/share/keyrings/koha-keyring.gpg] http://debian.koha-community.org/koha-staging 21.05 main" >> /etc/apt/sources.list.d/koha.list
+RUN echo "deb [signed-by=/usr/share/keyrings/koha-keyring.gpg] http://debian.koha-community.org/koha-staging unstable main" >> /etc/apt/sources.list.d/koha.list
 RUN echo "deb [signed-by=/usr/share/keyrings/koha-keyring.gpg] http://deb3.kohaaloha.com/ka/koha-deps stable main bullseye" >> /etc/apt/sources.list.d/koha.list
 
 #RUN wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add -
