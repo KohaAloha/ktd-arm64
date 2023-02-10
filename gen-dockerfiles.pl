@@ -26,6 +26,7 @@ my %builds = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'dev',
         'koha_version'  => '22.06',
+        'default'       => 1,
     },
 
 
@@ -56,61 +57,32 @@ my %builds = (
 
 # ---------------
 
-    '22.05-sid' => {
-        'os_name'       => 'debian',
-        'os_codename'   => 'sid',
-        'koha_codename' => 'stable',
-        'koha_version'  => '22.05',
-        'skip'          => 1,
-    },
 
-    '22.05-bookworm' => {
+    '22.11-bullseye' => {
         'os_name'       => 'debian',
-        'os_codename'   => 'bookworm',
+        'os_codename'   => 'bullseye',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
-        'skip'          => 1,
     },
 
     '22.05-bullseye' => {
         'os_name'       => 'debian',
         'os_codename'   => 'bullseye',
-        'koha_codename' => 'stable',
+        'koha_codename' => 'oldstable',
         'koha_version'  => '22.05',
-        'skip'          => 1,
     },
-
-    '22.05-buster' => {
-        'os_name'       => 'debian',
-        'os_codename'   => 'buster',
-        'koha_codename' => 'stable',
-        'koha_version'  => '22.05',
-        'skip'          => 1,
-    },
-
-    '22.05-jammy' => {
-        'os_name'       => 'ubuntu',
-        'os_codename'   => 'jammy',
-        'koha_codename' => 'stable',
-        'koha_version'  => '22.05',
-        'skip'          => 1,
-    },
-
-# ---------------
 
     '21.11-bullseye' => {
         'os_name'       => 'debian',
         'os_codename'   => 'bullseye',
-        'koha_codename' => 'oldstable',
+        'koha_codename' => 'oldoldstable',
         'koha_version'  => '21.11',
-        'skip'          => 1,
-        'default'       => 1,
     },
 
     '21.05-bullseye' => {
         'os_name'       => 'debian',
         'os_codename'   => 'bullseye',
-        'koha_codename' => 'oldoldstable',
+        'koha_codename' => '21.05',
         'koha_version'  => '21.05',
         'skip'          => 1,
     },
