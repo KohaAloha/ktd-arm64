@@ -1,0 +1,27 @@
+#image: docker:stable
+#image: arm64v8/alpine
+#image: docker:18-git
+image: arm64v8/docker
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+    # See https://github.com/docker-library/docker/pull/166
+  DOCKER_TLS_CERTDIR: ""
+
+services:
+  - docker:dind
+
+stages:
+  - build
+[%- FOREACH b IN builds  -%][% UNLESS b.value.skip %]
+
+[% b.key %]:
+  stage: build
+  script:
+  - docker build -t kohaaloha/arm64:[% b.key %] --no-cache --rm -f dists/[% b.key %]/Dockerfile .
+  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+  - docker push kohaaloha/arm64:[% b.key %]
+#  only:
+#  - [% b.key %]@mjames/ktd-arm64
+[%- END -%] [%- END -%]
