@@ -63,6 +63,7 @@ my %builds = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'stable',
         'koha_version'  => '22.05',
+        'skip'          => 1,
     },
 
     '22.05-bullseye' => {
@@ -70,6 +71,7 @@ my %builds = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'oldstable',
         'koha_version'  => '22.05',
+        'skip'          => 1,
     },
 
     '21.11-bullseye' => {
@@ -77,6 +79,7 @@ my %builds = (
         'os_codename'   => 'bullseye',
         'koha_codename' => 'oldoldstable',
         'koha_version'  => '21.11',
+        'skip'          => 1,
     },
 
     '21.05-bullseye' => {
@@ -93,7 +96,7 @@ my %builds = (
 my $vars = { builds => \%builds };
 
 my $template = 'gitlab-ci.yml';
-$tt->process( "$template.tt", $vars, $template ) || die $tt->error;
+$tt->process( "$template.tt", $vars, ".$template" ) || die $tt->error;
 
 #exit;
 
