@@ -92,7 +92,7 @@ my %builds = (
 
 my $vars = { builds => \%builds };
 
-my $template = '.gitlab-ci.yml';
+my $template = 'gitlab-ci.yml';
 $tt->process( "$template.tt", $vars, $template ) || die $tt->error;
 
 #exit;
