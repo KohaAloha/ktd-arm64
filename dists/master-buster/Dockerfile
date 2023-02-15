@@ -215,8 +215,6 @@ RUN apt-get update \
    && rm -rf /var/cache/apt/archives/* \
    && rm -rf /var/lib/api/lists/*
 
-RUN echo 'Mutex posixsem' >>/opt/bitnami/apache2/conf/httpd.conf
-
 VOLUME /kohadevbox/koha
 
 COPY files/run.sh /kohadevbox
