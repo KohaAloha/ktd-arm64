@@ -12,12 +12,24 @@ run the following to start a koha instance on arm64...
 $ uname -a
 Linux ip-172-31-9-666 5.10.0-19-cloud-arm64 #1 SMP Debian 5.10.149-2 (2022-10-21) aarch64 GNU/Linux
 
-$ lsb_release -a
-No LSB modules are available.
-Distributor ID: Debian
-Description:    Debian GNU/Linux 11 (bullseye)
-Release:        11
-Codename:       bullseye
+$ neofetch
+       _,met$$$$$gg.          root@ip-172-31-X-XX
+    ,g$$$$$$$$$$$$$$$P.       -------------------
+  ,g$$P"     """Y$$.".        OS: Debian GNU/Linux 11 (bullseye) aarch64
+ ,$$P'              `$$$.     Host: t4g.small
+',$$P       ,ggs.     `$$b:   Kernel: 5.10.0-21-cloud-arm64
+`d$$'     ,$P"'   .    $$$    Uptime: 40 days, 15 hours, 42 mins
+ $$P      d$'     ,    $$P    Packages: 769 (dpkg)
+ $$:      $$.   -    ,d$$'    Shell: bash 5.1.4
+ $$;      Y$b._   _,d$P'      CPU: (2)
+ Y$$.    `.`"Y$$$$P"'         Memory: 228MiB / 1868MiB
+ `$$b      "-.__
+  `Y$$
+   `Y$$.
+     `$$b.
+       `Y$$b.
+          `"Y$b._
+              `"""
 
 $ dpkg -l | grep docker
 ii  docker-ce                         5:20.10.21~3-0~debian-bullseye arm64        Docker: the open-source application container engine
