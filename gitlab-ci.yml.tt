@@ -17,6 +17,8 @@ stages:
 [%- FOREACH b IN builds  -%][% UNLESS b.value.skip %]
 
 [% b.key %]:
+  variables:
+    DOCKER_TLS_CERTDIR: ""
   image: arm64v8/docker
   stage: build
   tags:
