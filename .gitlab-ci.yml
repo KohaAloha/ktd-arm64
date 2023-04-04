@@ -16,6 +16,8 @@ stages:
   - build
 
 master-bullseye:
+  variables:
+    DOCKER_TLS_CERTDIR: ""
   image: arm64v8/docker
   stage: build
   tags:
