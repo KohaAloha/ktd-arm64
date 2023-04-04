@@ -17,6 +17,8 @@ stages:
 master-bullseye:
   image: arm64v8/docker
   stage: build
+  tags:
+    - arm64
   script:
   - docker build -t kohaaloha/arm64:master-bullseye --no-cache --rm -f dists/master-bullseye/Dockerfile .
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
