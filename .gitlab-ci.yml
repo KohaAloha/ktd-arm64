@@ -1,7 +1,6 @@
-#image: docker:stable
+image: docker:stable
 #image: arm64v8/alpine
 #image: docker:18-git
-image: arm64v8/docker
 
 variables:
   DOCKER_HOST: tcp://docker:2375/
@@ -16,6 +15,7 @@ stages:
   - build
 
 master-bullseye:
+  image: arm64v8/docker
   stage: build
   script:
   - docker build -t kohaaloha/arm64:master-bullseye --no-cache --rm -f dists/master-bullseye/Dockerfile .
